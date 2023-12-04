@@ -2,6 +2,7 @@
 
 curl -X POST http://localhost:8080/odata/v4/OrdersService/Orders \
  -H "Content-Type: application/json" \
+ -u klaus:pass_klaus \
  -d '{
        "items": [
          {
@@ -15,6 +16,7 @@ curl -X POST http://localhost:8080/odata/v4/OrdersService/Orders \
 
 curl -X POST http://localhost:8080/odata/v4/OrdersService/Orders \
  -H "Content-Type: application/json" \
+ -u System:'' \
  -d '{
   "items": [
     {
@@ -26,4 +28,32 @@ curl -X POST http://localhost:8080/odata/v4/OrdersService/Orders \
 
 ### Read Book
 
-curl -X GET "http://localhost:8080/odata/v4/BooksService/Books(abed2f7a-c50e-4bc5-89fd-9a00a54b4b16)" | json_pp \ -H "Accept: application/json"
+curl -X GET "http://localhost:8080/odata/v4/BooksService/Books(abed2f7a-c50e-4bc5-89fd-9a00a54b4b16)" \
+    -H "Accept: application/json" \
+    -u System:''
+
+### Admin User
+
+curl -X GET http://localhost:8080/odata/v4/AdminService/Products \
+    -H Accept: application/json \
+    -H Authorization: Basic sabine:pass_sabine
+
+### Create Order as Mia
+
+curl -X POST 'http://localhost:8080/odata/v4/OrdersService/Orders' \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Basic mia:pass_mia' \
+    -d '{
+        "items": [
+            {
+                "book_ID": "fd0c5fda-8811-4e20-bcff-3a776abc290a",
+                "amount": 10
+            }
+        ]
+       }'
+
+### Read Orders as Mia
+
+curl -X GET 'http://localhost:8080/odata/v4/OrdersService/Orders?$expand=items' \
+     -H 'Accept: application/json' \
+     -H 'Authorization: Basic mia:pass_mia'
