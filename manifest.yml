@@ -11,3 +11,4 @@ applications:
       SPRING_PROFILES_ACTIVE: cloud
     services:
       - bookstore-hana
+      - bookstore-xsuaa
